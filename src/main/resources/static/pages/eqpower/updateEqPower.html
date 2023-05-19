@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap.min.css">
+</head>
+<body>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+	<form class="form-horizontal" onsubmit="return false" id="form">
+		<fieldset>
+			<input type="hidden" id="id" name="id">
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>plateNum</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='plateNum' type='text' name='plateNum' id='plateNum' data-bv-notempty='true' data-bv-notempty-message='plateNum 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>plateName</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='plateName' type='text' name='plateName' id='plateName' data-bv-notempty='true' data-bv-notempty-message='plateName 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>ownerId</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='ownerId' type='text' name='ownerId' id='ownerId' data-bv-notempty='true' data-bv-notempty-message='ownerId 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>brand</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='brand' type='text' name='brand' id='brand' data-bv-notempty='true' data-bv-notempty-message='brand 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>type</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='type' type='text' name='type' id='type' data-bv-notempty='true' data-bv-notempty-message='type 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>purchDate</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='purchDate' type='text' name='purchDate' id='purchDate' data-bv-notempty='true' data-bv-notempty-message='purchDate 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>price</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='price' type='text' name='price' id='price' data-bv-notempty='true' data-bv-notempty-message='price 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>state</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='state' type='text' name='state' id='state' data-bv-notempty='true' data-bv-notempty-message='state 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>driver</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='driver' type='text' name='driver' id='driver' data-bv-notempty='true' data-bv-notempty-message='driver 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>isUse</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='isUse' type='text' name='isUse' id='isUse' data-bv-notempty='true' data-bv-notempty-message='isUse 不能为空'>
+				</div>
+			</div>
+
+
+
+			<div class="form-actions">
+				<div class="row" align="center">
+					<div class="col-md-12">
+					    <button class="btn btn-primary" onclick="location.href='eqPowerList.html'">返回</button>
+						<button class="btn btn-primary" type="submit" onclick="update()">
+							<i class="fa fa-save"></i> 保存
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</fieldset>
+	</form>
+</div>
+	<script type="text/javascript" src="../../js/libs/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="../../js/jq.js"></script>
+	<script type="text/javascript" src="../../js/plugin/bootstrapvalidator/bootstrapValidator.min.js"></script>
+	<script type="text/javascript" src="../../js/common.js"></script>
+	<script type="text/javascript" src="../../layui/layui.js"></script>
+	<script type="text/javascript">
+		layui.use(['layer','laydate'], function(){
+		    var layer = layui.layer;
+		});
+		
+		initData();
+		
+		function initData(){
+			var id = getUrlParam("id");
+			if(id != ""){
+				$.ajax({
+					type : 'get',
+					url : '/eqPowers/'+id,
+					async : false,
+					success : function(data) {
+						$('#id').val(data.id);
+						$('#plateNum').val(data.plateNum);
+						$('#plateName').val(data.plateName);
+						$('#ownerId').val(data.ownerId);
+						$('#brand').val(data.brand);
+						$('#type').val(data.type);
+						$('#purchDate').val(data.purchDate);
+						$('#price').val(data.price);
+						$('#state').val(data.state);
+						$('#driver').val(data.driver);
+						$('#isUse').val(data.isUse);
+
+					}
+				});
+			}
+		}
+
+		function update() {
+			$('#form').bootstrapValidator();
+			var bootstrapValidator = $("#form").data('bootstrapValidator');
+			bootstrapValidator.validate();
+		    if(!bootstrapValidator.isValid()){
+			   return;
+		    }
+		    
+		    var formdata = $("#form").serializeObject();
+
+			$.ajax({
+				type : 'put',
+				url : '/eqPowers',
+				contentType: "application/json; charset=utf-8",  
+				data : JSON.stringify(formdata),
+				success : function(data) {
+					layer.msg("修改成功", {shift: -1, time: 1000}, function(){
+                        location.href = "eqPowerList.html";
+                    });
+				}
+			});
+		}
+		
+	</script>
+</body>
+</html>

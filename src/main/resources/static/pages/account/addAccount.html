@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap.min.css">
+</head>
+<body>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+	<form class="form-horizontal" onsubmit="return false" id="form">
+		<fieldset>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>账目名</label>
+				<div class='col-md-10'>
+					<input class='form-control'  type='text' name='name' id='name' data-bv-notempty='true' data-bv-notempty-message='name 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>交易时间</label>
+				<div class='col-xs-2'>
+					<input class='text' class="form-control"  name='itemDate' id='itemDate' data-bv-notempty='true' data-bv-notempty-message='itemDate 不能为空'/>
+				</div>
+			</div>
+<!--			<div class='form-group'>-->
+<!--				<label class='col-md-2 control-label'>账目类型</label>-->
+<!--				<div class='col-md-10'>-->
+<!--					<input class='form-control' placeholder='itemCategory' type='text' name='itemCategory' id='itemCategory' data-bv-notempty='true' data-bv-notempty-message='itemCategory 不能为空'>-->
+<!--				</div>-->
+<!--			</div>-->
+			<div class="form-group">
+				<label class="col-md-2 control-label">账目类型</label>
+				<div class="col-md-10" style="width: 100px">
+					<select class="form-control input-sm" name="type" id="type">
+					</select>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>账户</label>
+				<div class='col-md-10'>
+					<input class='form-control'  type='text' name='account' id='account' data-bv-notempty='true' data-bv-notempty-message='account 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>客户</label>
+				<div class='col-md-10'>
+					<input class='form-control'  type='text' name='customer' id='customer' data-bv-notempty='true' data-bv-notempty-message='customer 不能为空'>
+				</div>
+			</div>
+<!--			<div class='form-group'>-->
+<!--				<label class='col-md-2 control-label'>状态</label>-->
+<!--				<div class='col-md-10'>-->
+<!--					<input class='form-control' placeholder='state' type='text' name='state' id='state' data-bv-notempty='true' data-bv-notempty-message='state 不能为空'>-->
+<!--				</div>-->
+<!--			</div>-->
+			<div class="form-group">
+				<label class="col-md-2 control-label">状态</label>
+				<div class="col-md-10" style="width: 150px">
+					<select class="form-control input-sm" name="state" id="state">
+					</select>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>应付（应收）金额</label>
+				<div class='col-md-10'>
+					<input class='form-control'  type='text' name='receivable' id='receivable' data-bv-notempty='true' data-bv-notempty-message='receivable 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>实付（实收）金额</label>
+				<div class='col-md-10'>
+					<input class='form-control'  type='text' name='received' id='received' data-bv-notempty='true' data-bv-notempty-message='received 不能为空'>
+				</div>
+			</div>
+
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>负责人名字</label>
+				<div class='col-md-10'>
+					<input class='form-control'  type='text' name='creator' id='creator' data-bv-notempty='true' data-bv-notempty-message='creator 不能为空'>
+				</div>
+			</div>
+
+
+			<div class="form-actions">
+				<div class="row" align="center">
+					<div class="col-md-12">
+					    <button class="btn btn-primary" onclick="location.href='accountList.html'">返回</button>
+						<button class="btn btn-primary" type="submit" onclick="add()">
+							<i class="fa fa-save"></i> 保存
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</fieldset>
+	</form>
+</div>
+	<script type="text/javascript" src="../../js/libs/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="../../js/jq.js"></script>
+	<script type="text/javascript" src="../../js/plugin/bootstrapvalidator/bootstrapValidator.min.js"></script>
+	<script type="text/javascript" src="../../js/common.js"></script>
+	<script type="text/javascript" src="../../js/dict.js"></script>
+	<script type="text/javascript" src="../../layui/layui.js"></script>
+	<script type="text/javascript">
+		layui.use(['layer','laydate'], function(){
+		    var layer = layui.layer;
+			var laydate = layui.laydate;
+			laydate.render({
+				elem: '#itemDate'
+			});
+		});
+
+		showDictSelect("type", "accountType");
+		showDictSelect("state", "accountStatus");
+
+
+		function add() {
+			$('#form').bootstrapValidator();
+			var bootstrapValidator = $("#form").data('bootstrapValidator');
+			bootstrapValidator.validate();
+		    if(!bootstrapValidator.isValid()){
+			   return;
+		    }
+		    
+		    var formdata = $("#form").serializeObject();
+
+			$.ajax({
+				type : 'post',
+				url : '/accounts',
+				contentType: "application/json; charset=utf-8",  
+				data : JSON.stringify(formdata),
+				success : function(data) {
+					layer.msg("添加成功", {shift: -1, time: 1000}, function(){
+                        location.href = "accountList.html";
+                    });
+				}
+			});
+		}
+		
+	</script>
+</body>
+</html>

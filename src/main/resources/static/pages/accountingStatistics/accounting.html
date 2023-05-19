@@ -1,0 +1,185 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>支出列表</title>
+    <!-- 引入Layui和Echarts库文件 -->
+    <script src="../../js/echarts.js"></script>
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
+    <script src="../../layui/layui.js"></script>
+
+</head>
+<body>
+<!-- 创建一个table元素用于显示支出列表
+<table id="outcome_table" lay-filter="outcome_table"></table>-->
+<div class="layui-card" id="outcome_card">
+    <div class="layui-card-header">收支折线图</div>
+    <div class="layui-card-body">
+<!-- 创建一个div元素用于显示折线图 -->
+<div id="outcome_chart" style="width: 900px; height: 500px"></div>
+<!-- 显示支出总额 -->
+<span style="margin-left: 18px">支出总额：</span><div class="layui-badge" id="sum"></div>
+    </div>
+</div>
+<script>
+    layui.use(['table', 'jquery', 'layer'], function(){
+        var table = layui.table;
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        // 创建一个table实例
+        /*table.render({
+            elem: '#outcome_table' //指定原始表格元素选择器（推荐id选择器）
+            ,height: 312 //设置高度
+            ,url: '/outcome/findByType?type=1' //数据接口
+            ,page: true //开启分页
+            ,cols: [[ //表头
+                {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'}
+                ,{field: 'amount', title: '金额', width:80}
+                ,{field: 'date', title: '日期', width:80}
+            ]]
+        });*/
+
+
+    // 创建一个折线图的配置对象
+    var option = {
+        title: {
+            text: '收支列表'
+        },
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            data:['金额1', '金额2']
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            // 第一条折线，表示类型为1的支出
+                id: 'type1', // 系列id，和legend中的元素对应
+                name: '收入', // 系列名称，和legend中的元素对应
+                type: 'line', // 类型：线
+                data: [] // 数据，先留空，后面填充
+            },
+            // 第二条折线，表示类型为0的支出
+            {
+                id: 'type0', // 系列id，和legend中的元素对应
+                name: '支出', // 系列名称，和legend中的元素对应
+                type: 'line', // 类型：线
+                color:'#fff00',
+                data: [] // 数据，先留空，后面填充
+        }]
+    };
+
+
+    // 创建一个空的数据集对象
+    var dataset1 = {
+        dateList: [], //日期数组
+        receivedList: [] //金额数组
+    };
+        // 创建一个空的数据集对象
+        var dataset2 = {
+            dateList: [], //日期数组
+            receivedList: [] //金额数组
+        };
+
+        // 使用$.get方法向后端发送请求，并获取支出列表的json格式数据
+        $.get('/outcome/findByType?itemCategory=1', function(data) {
+            // 解析json格式数据为JavaScript数组
+            var outcomes = JSON.parse(data);
+            var sum = 0; //定义一个变量来累加金额
+            /*// 使用lodash的sortBy方法对支出列表按照日期进行排序
+            outcomes = _.sortBy(outcomes, "date");*/
+            // 遍历支出列表，并将每一条支出的日期和金额添加到数据集对象中
+            for (var i = 0; i < outcomes.length; i++) {
+                var outcome = outcomes[i];
+                if (!isNaN(outcome.date)) {
+                    // 使用Date构造函数，将毫秒为单位的时间戳转换为日期对象
+                    var date = new Date(outcome.date);
+                    var year = date.getFullYear();
+                    var month = date.getMonth() + 1;
+                    if (month < 10) {
+                        month = "0" + month;
+                    }
+                    var day = date.getDate();
+                    if (day < 10) {
+                        day = "0" + day;
+                    }
+                    var dateStr = year + "-" + month + "-" + day;
+                    outcome.date = dateStr;
+                    dataset1.dateList.push(outcome.date);
+                    dataset1.receivedList.push(outcome.amount);
+                    sum += outcome.amount; //累加金额
+                } else {
+                    // 如果不是，跳过这条支出，或者给出一个错误提示
+                    console.log("Invalid date for outcome " + outcome.id);
+                }
+            }
+            // 将累加的金额显示在badge组件中
+            $("#sum").text(sum); //假设badge组件的id是sum
+            // 使用layui的方法，自定义badge组件的颜色和大小
+            layui.use('element', function(){
+                var element = layui.element;
+                element.render('badge', 'sum'); //指定渲染badge组件，id为sum
+                element.color('badge', 'sum', '#1E9FFF'); //指定badge组件的颜色为蓝色，id为sum
+                element.size('badge', 'sum', 'lg'); //指定badge组件的大小为大号，id为sum
+            });
+        });
+
+        // 使用$.get方法向后端发送请求，并获取支出列表的json格式数据
+        $.get('/outcome/findByType?itemCategory=0', function(data) {
+            // 解析json格式数据为JavaScript数组
+            var outcomes = JSON.parse(data);
+            /*// 使用lodash的sortBy方法对支出列表按照日期进行排序
+            outcomes = _.sortBy(outcomes, "date");*/
+            // 遍历支出列表，并将每一条支出的日期和金额添加到数据集对象中
+            for (var i = 0; i < outcomes.length; i++) {
+                var outcome = outcomes[i];
+                if (!isNaN(outcome.date)) {
+                    // 使用Date构造函数，将毫秒为单位的时间戳转换为日期对象
+                    var date = new Date(outcome.date);
+                    var year = date.getFullYear();
+                    var month = date.getMonth() + 1;
+                    if (month < 10) {
+                        month = "0" + month;
+                    }
+                    var day = date.getDate();
+                    if (day < 10) {
+                        day = "0" + day;
+                    }
+                    var dateStr = year + "-" + month + "-" + day;
+                    outcome.date = dateStr;
+                    dataset2.dateList.push(outcome.date);
+                    dataset2.receivedList.push(outcome.amount);
+                } else {
+                    // 如果不是，跳过这条支出，或者给出一个错误提示
+                    console.log("Invalid date for outcome " + outcome.id);
+                }
+            }
+            console.log(dataset1);
+            // 将日期和金额数组分别添加到折线图的配置对象中
+            option.xAxis.data = dataset1.dateList;
+            option.series[0].data = dataset1.receivedList;//使用dataset1的金额数组作为第一条折线的数据
+            option.series[1].data = dataset2.receivedList;//使用dataset2的金额数组作为第二条折线的数据
+            console.log(echarts);
+            // 创建一个折线图的实例，并将配置对象传入
+            window.chart = echarts.init(document.getElementById('outcome_chart'));
+            chart.clear();
+            // 绘制折线图到一个HTML元素中
+            chart.setOption(option, true);
+            // 显示一个成功提示信息
+            layer.msg('请求成功');
+        }).fail(function() {
+            // 显示一个失败提示信息
+            layer.msg('请求失败');
+        });
+        // 监听窗口大小变化事件，并调用折线图的resize方法
+        window.onresize = function() {
+            chart.resize();
+        };
+    });
+</script>
+</body>
+</html>

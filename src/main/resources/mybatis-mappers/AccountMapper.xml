@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="server.dao.AccountDao">
+
+	<sql id="where">
+		<where>
+			<if test="params.id != null and params.id != ''">
+				and id = #{params.id}
+			</if>
+			<if test="params.name != null and params.name != ''">
+				and name = #{params.name}
+			</if>
+			<if test="params.item_date != null and params.item_date != ''">
+				and item_date = #{params.itemDate}
+			</if>
+			<if test="params.type != null and params.type != ''">
+				and type = #{params.type}
+			</if>
+<!--			<if test="params.item_category != null and params.item_category != ''">-->
+<!--				and item_category = #{params.itemCategory}-->
+<!--			</if>-->
+			<if test="params.account != null and params.account != ''">
+				and account = #{params.account}
+			</if>
+			<if test="params.customer != null and params.customer != ''">
+				and customer = #{params.customer}
+			</if>
+			<if test="params.state != null and params.state != ''">
+				and state = #{params.state}
+			</if>
+			<if test="params.receivable != null and params.receivable != ''">
+				and receivable = #{params.receivable}
+			</if>
+			<if test="params.received != null and params.received != ''">
+				and received = #{params.received}
+			</if>
+			<if test="params.qk != null and params.qk != ''">
+				and qk = #{params.qk}
+			</if>
+			<if test="params.create_time != null and params.create_time != ''">
+				and create_time = #{params.createTime}
+			</if>
+			<if test="params.update_time != null and params.update_time != ''">
+				and update_time = #{params.updateTime}
+			</if>
+			<if test="params.creator != null and params.creator != ''">
+				and creator = #{params.creator}
+			</if>
+
+		</where>
+	</sql>
+
+	<select id="count" resultType="int">
+		select count(1) from t_account t
+		<include refid="where" />
+	</select>
+
+	<select id="list" resultType="Account">
+		select * from t_account t
+		<include refid="where" />
+		${params.orderBy}
+		limit #{offset}, #{limit}
+	</select>
+
+	<update id="update">
+		update t_account t
+		<set>
+			<if test="name != null">
+				name = #{name},
+			</if>
+			<if test="item_date != null">
+				item_date = #{itemDate},
+			</if>
+			<if test="type != null">
+				type = #{type},
+			</if>
+<!--			<if test="item_category != null">-->
+<!--				item_category = #{itemCategory},-->
+<!--			</if>-->
+			<if test="account != null">
+				account = #{account},
+			</if>
+			<if test="customer != null">
+				customer = #{customer},
+			</if>
+			<if test="state != null">
+				state = #{state},
+			</if>
+			<if test="receivable != null">
+				receivable = #{receivable},
+			</if>
+			<if test="received != null">
+				received = #{received},
+			</if>
+			<if test="qk != null">
+				qk = #{qk},
+			</if>
+			<if test="create_time != null">
+				create_time = #{createTime},
+			</if>
+			<if test="update_time != null">
+				update_time = #{updateTime},
+			</if>
+			<if test="creator != null">
+				creator = #{creator},
+			</if>
+
+		</set>
+
+		where t.id = #{id}
+	</update>
+
+</mapper>

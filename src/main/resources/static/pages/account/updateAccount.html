@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap.min.css">
+</head>
+<body>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+	<form class="form-horizontal" onsubmit="return false" id="form">
+		<fieldset>
+			<input type="hidden" id="id" name="id">
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>账目名</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='name' type='text' name='name' id='name' data-bv-notempty='true' data-bv-notempty-message='name 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>交易时间</label>
+				<div class='col-md-10'>
+					<input class='text' placeholder='itemDate' type='text' name='itemDate' id='itemDate' data-bv-notempty='true' data-bv-notempty-message='itemDate 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>账目类型</label>
+				<div class="col-md-10" style="width: 100px">
+					<select class="form-control input-sm" name="itemCategory" id="itemCategory">
+					</select>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>账户</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='account' type='text' name='account' id='account' data-bv-notempty='true' data-bv-notempty-message='account 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>客户</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='customer' type='text' name='customer' id='customer' data-bv-notempty='true' data-bv-notempty-message='customer 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>状态</label>
+				<div class="col-md-10" style="width: 150px">
+					<select class="form-control input-sm" name="state" id="state">
+					</select>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>应付（应收）金额</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='receivable' type='text' name='receivable' id='receivable' data-bv-notempty='true' data-bv-notempty-message='receivable 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>实付（实收）金额</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='received' type='text' name='received' id='received' data-bv-notempty='true' data-bv-notempty-message='received 不能为空'>
+				</div>
+			</div>
+<!--			<div class='form-group'>-->
+<!--				<label class='col-md-2 control-label'>qk</label>-->
+<!--				<div class='col-md-10'>-->
+<!--					<input class='form-control' placeholder='qk' type='text' name='qk' id='qk' data-bv-notempty='true' data-bv-notempty-message='qk 不能为空'>-->
+<!--				</div>-->
+<!--			</div>-->
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>负责人名字</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='creator' type='text' name='creator' id='creator' data-bv-notempty='true' data-bv-notempty-message='creator 不能为空'>
+				</div>
+			</div>
+
+
+
+			<div class="form-actions">
+				<div class="row" align="center">
+					<div class="col-md-12">
+					    <button class="btn btn-primary" onclick="location.href='accountList.html'">返回</button>
+						<button class="btn btn-primary" type="submit" onclick="update()">
+							<i class="fa fa-save"></i> 保存
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</fieldset>
+	</form>
+</div>
+	<script type="text/javascript" src="../../js/libs/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="../../js/jq.js"></script>
+	<script type="text/javascript" src="../../js/plugin/bootstrapvalidator/bootstrapValidator.min.js"></script>
+	<script type="text/javascript" src="../../js/common.js"></script>
+	<script type="text/javascript" src="../../js/dict.js"></script>
+	<script type="text/javascript" src="../../layui/layui.js"></script>
+	<script type="text/javascript">
+		layui.use(['layer','laydate'], function(){
+		    var layer = layui.layer;
+			var laydate = layui.laydate;
+			laydate.render({
+				elem: '#itemDate'
+			});
+		});
+
+		showDictSelect("state", "accountStatus");
+		showDictSelect("itemCategory", "accountType");
+		initData();
+		
+		function initData(){
+			var id = getUrlParam("id");
+			if(id != ""){
+				$.ajax({
+					type : 'get',
+					url : '/accounts/'+id,
+					async : false,
+					success : function(data) {
+						$('#id').val(data.id);
+						$('#name').val(data.name);
+						$('#itemDate').val(data.itemDate);
+						$('#itemCategory').val(data.itemCategory);
+						$('#account').val(data.account);
+						$('#customer').val(data.customer);
+						$('#state').val(data.state);
+						$('#receivable').val(data.receivable);
+						$('#received').val(data.received);
+						$('#creator').val(data.creator);
+
+					}
+				});
+			}
+		}
+
+		function update() {
+			$('#form').bootstrapValidator();
+			var bootstrapValidator = $("#form").data('bootstrapValidator');
+			bootstrapValidator.validate();
+		    if(!bootstrapValidator.isValid()){
+			   return;
+		    }
+		    
+		    var formdata = $("#form").serializeObject();
+
+			$.ajax({
+				type : 'put',
+				url : '/accounts',
+				contentType: "application/json; charset=utf-8",  
+				data : JSON.stringify(formdata),
+				success : function(data) {
+					layer.msg("修改成功", {shift: -1, time: 1000}, function(){
+                        location.href = "accountList.html";
+                    });
+				}
+			});
+		}
+		
+	</script>
+</body>
+</html>

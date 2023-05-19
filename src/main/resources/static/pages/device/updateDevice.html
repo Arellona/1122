@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" media="screen" href="../../css/bootstrap.min.css">
+</head>
+<body>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+	<form class="form-horizontal" onsubmit="return false" id="form">
+		<fieldset>
+			<input type="hidden" id="id" name="id">
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>sn</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='sn' type='text' name='sn' id='sn' data-bv-notempty='true' data-bv-notempty-message='sn 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>name</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='name' type='text' name='name' id='name' data-bv-notempty='true' data-bv-notempty-message='name 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>typeId</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='typeId' type='text' name='typeId' id='typeId' data-bv-notempty='true' data-bv-notempty-message='typeId 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>location</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='location' type='text' name='location' id='location' data-bv-notempty='true' data-bv-notempty-message='location 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>image</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='image' type='text' name='image' id='image' data-bv-notempty='true' data-bv-notempty-message='image 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>installTime</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='installTime' type='text' name='installTime' id='installTime' data-bv-notempty='true' data-bv-notempty-message='installTime 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>state</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='state' type='text' name='state' id='state' data-bv-notempty='true' data-bv-notempty-message='state 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>standard</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='standard' type='text' name='standard' id='standard' data-bv-notempty='true' data-bv-notempty-message='standard 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>manufacturer</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='manufacturer' type='text' name='manufacturer' id='manufacturer' data-bv-notempty='true' data-bv-notempty-message='manufacturer 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>userId</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='userId' type='text' name='userId' id='userId' data-bv-notempty='true' data-bv-notempty-message='userId 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>softwareVersion</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='softwareVersion' type='text' name='softwareVersion' id='softwareVersion' data-bv-notempty='true' data-bv-notempty-message='softwareVersion 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>thresholdMin</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='thresholdMin' type='text' name='thresholdMin' id='thresholdMin' data-bv-notempty='true' data-bv-notempty-message='thresholdMin 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>thresholdMax</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='thresholdMax' type='text' name='thresholdMax' id='thresholdMax' data-bv-notempty='true' data-bv-notempty-message='thresholdMax 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>remark</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='remark' type='text' name='remark' id='remark' data-bv-notempty='true' data-bv-notempty-message='remark 不能为空'>
+				</div>
+			</div>
+			<div class='form-group'>
+				<label class='col-md-2 control-label'>operator</label>
+				<div class='col-md-10'>
+					<input class='form-control' placeholder='operator' type='text' name='operator' id='operator' data-bv-notempty='true' data-bv-notempty-message='operator 不能为空'>
+				</div>
+			</div>
+
+
+
+			<div class="form-actions">
+				<div class="row" align="center">
+					<div class="col-md-12">
+					    <button class="btn btn-primary" onclick="location.href='deviceList.html'">返回</button>
+						<button class="btn btn-primary" type="submit" onclick="update()">
+							<i class="fa fa-save"></i> 保存
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</fieldset>
+	</form>
+</div>
+	<script type="text/javascript" src="../../js/libs/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="../../js/jq.js"></script>
+	<script type="text/javascript" src="../../js/plugin/bootstrapvalidator/bootstrapValidator.min.js"></script>
+	<script type="text/javascript" src="../../js/common.js"></script>
+	<script type="text/javascript" src="../../layui/layui.js"></script>
+	<script type="text/javascript">
+		layui.use(['layer','laydate'], function(){
+		    var layer = layui.layer;
+		});
+		
+		initData();
+		
+		function initData(){
+			var id = getUrlParam("id");
+			if(id != ""){
+				$.ajax({
+					type : 'get',
+					url : '/devices/'+id,
+					async : false,
+					success : function(data) {
+						$('#id').val(data.id);
+						$('#sn').val(data.sn);
+						$('#name').val(data.name);
+						$('#typeId').val(data.typeId);
+						$('#location').val(data.location);
+						$('#image').val(data.image);
+						$('#installTime').val(data.installTime);
+						$('#state').val(data.state);
+						$('#standard').val(data.standard);
+						$('#manufacturer').val(data.manufacturer);
+						$('#userId').val(data.userId);
+						$('#softwareVersion').val(data.softwareVersion);
+						$('#thresholdMin').val(data.thresholdMin);
+						$('#thresholdMax').val(data.thresholdMax);
+						$('#remark').val(data.remark);
+						$('#createTime').val(data.createTime);
+						$('#updateTime').val(data.updateTime);
+						$('#operator').val(data.operator);
+
+					}
+				});
+			}
+		}
+
+		function update() {
+			$('#form').bootstrapValidator();
+			var bootstrapValidator = $("#form").data('bootstrapValidator');
+			bootstrapValidator.validate();
+		    if(!bootstrapValidator.isValid()){
+			   return;
+		    }
+		    
+		    var formdata = $("#form").serializeObject();
+
+			$.ajax({
+				type : 'put',
+				url : '/devices',
+				contentType: "application/json; charset=utf-8",  
+				data : JSON.stringify(formdata),
+				success : function(data) {
+					layer.msg("修改成功", {shift: -1, time: 1000}, function(){
+                        location.href = "deviceList.html";
+                    });
+				}
+			});
+		}
+		
+	</script>
+</body>
+</html>

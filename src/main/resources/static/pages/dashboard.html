@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<link rel="stylesheet" href="../layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="../css/global.css" media="all" />
+</head>
+
+<body>
+	<div class="admin-main">
+		<blockquote class="layui-elem-quote">
+			<fieldset class="layui-elem-field">
+				<legend>内置功能：</legend>
+				<div class="layui-field-box">
+
+				</div>
+			</fieldset>
+		</blockquote>
+		<blockquote class="layui-elem-quote">
+			<fieldset class="layui-elem-field">
+				<legend>其他说明：</legend>
+				</h2>
+				<div class="layui-field-box"
+					style="margin: 0.0px; padding: 10.0px 15.0px; color: #000000; background-color: #f2f2f2;">
+				</div>
+			</fieldset>
+		</blockquote>
+		<blockquote class="layui-elem-quote">
+			<fieldset class="layui-elem-field">
+				<legend>说明：</legend>
+				<div class="layui-field-box">
+					<p>单机下不需要session共享</p>
+					<p>集群下，请打开pom里的 groupId：org.springframework.session
+						artifactId：spring-session-data-redis 和com.zw.admin.server.config.RedisConfig
+						中的@EnableRedisHttpSession</p>
+					<p>将EhCacheTokenManager类上的注解@Primary移到RedisTokenManager上面</p>
+				</div>
+			</fieldset>
+		</blockquote>
+	</div>
+</body>
+
+</html>
